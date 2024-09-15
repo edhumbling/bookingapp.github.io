@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barber Shop Booking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans', sans-serif; /* Using a font common in Asian designs */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0; /* Light gray background */
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333; /* Dark gray for heading */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555; /* Slightly lighter gray for labels */
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff; /* Blue button */
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Styling for date and time inputs */
+        input[type="date"],
+        input[type="time"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            appearance: none; /* Remove default browser styling */
+            -webkit-appearance: none; /* For Safari */
+        }
+
+        /* Customize the date picker arrow */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Customize the time picker arrow */
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Barber Shop Booking</h1>
+        <form id="booking-form">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="service">Service:</label>
+                <select id="service" name="service" required>
+                    <option value="haircut">Haircut</option>
+                    <option value="beardtrim">Beard Trim</option>
+                    <option value="shave">Shave</option>
+                    <option value="color">Color</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="time">Time:</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+            <a href="www.paystack.com/pay/leadtech" target="_blank" class="block text-center mb-4">
+                <button type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Pay Now</button>
+            </a>
+            <button type="submit" id="share-button" disabled>Share Appointment</button>
+            <div class="success-message" id="success-message"></div>
+        </form>
+    </div>
+
+    <script>
+        const bookingForm = document.getElementById('booking-form');
+        const successMessage = document.getElementById('success-message');
+        const shareButton = document.getElementById('share-button');
+
+        bookingForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const service = document.getElementById('service').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+
+            // Construct the message to share
+            const shareMessage = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nService: ${service}\nDate: ${date}\nTime: ${time}\nPayment Info: www.paystack.com/pay/leadtech`;
+
+            // Create a link to share the message via WhatsApp
+            const whatsappLink = `https://wa.me/+233208705290?text=${encodeURIComponent(shareMessage)}`;
+
+            // Open the WhatsApp link in a new window
+            window.open(whatsappLink);
+
+            // Display success message
+            successMessage.textContent = `Thank you, ${name}! Your appointment details have been shared with the barber.`;
+            successMessage.style.display = 'block';
+
+            // Clear the form
+            bookingForm.reset();
+        });
+
+        // Enable the "Share Appointment" button after payment
+        const payButton = document.querySelector('a[href="www.paystack.com/pay/leadtech"] button');
+        payButton.addEventListener('click', () => {
+            shareButton.disabled = false; // Enable the button
+        });
+    </script>
+</body>
+</html>
